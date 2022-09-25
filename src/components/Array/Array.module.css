@@ -1,0 +1,9 @@
+.arrayDiv {
+  display: flex;
+  margin: auto;
+  width: fit-content;
+  height: 30vh;
+  min-height: 100px;
+  position: relative;
+  align-items: center;
+}

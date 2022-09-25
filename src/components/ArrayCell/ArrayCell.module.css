@@ -1,0 +1,87 @@
+.arrayCell {
+  width: 2.5vw;
+  text-align: center;
+  border: 1px solid black;
+  height: 6.5vh;
+}
+
+.arrayCellDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.cellBounceUp {
+  animation-name: bounceCellUp;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+}
+.cellBounceDown {
+  animation-name: bounceCellDown;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+}
+
+.placeholder {
+  margin-bottom: var(--yEnd);
+  margin-left: var(--xEnd);
+}
+
+@keyframes bounceCellDown {
+  from {
+    margin-top: var(--yStart);
+    margin-left: var(--xStart);
+    /* margin-top: 0;
+    margin-left: 0; */
+  }
+
+  33% {
+    margin-top: var(--yHalf);
+    margin-left: var(--xStart);
+
+    /* margin-top: 100%;
+    margin-left: 0; */
+  }
+
+  66% {
+    margin-top: var(--yHalf);
+    margin-left: var(--xEnd);
+    /* margin-top: 100%;
+    margin-left: 1550%; */
+  }
+  to {
+    margin-top: var(--yEnd);
+    margin-left: var(--xEnd);
+    /* margin-top: 0;
+    margin-left: 3100%; */
+  }
+}
+
+@keyframes bounceCellUp {
+  from {
+    margin-bottom: var(--yStart);
+    margin-left: var(--xStart);
+    /* margin-bottom: 0;
+    margin-left: 0; */
+  }
+
+  33% {
+    margin-bottom: var(--yHalf);
+    margin-left: var(--xStart);
+
+    /* margin-bottom: 100%;
+    margin-left: 0; */
+  }
+
+  66% {
+    margin-bottom: var(--yHalf);
+    margin-left: var(--xEnd);
+    /* margin-bottom: 100%;
+    margin-left: 1550%; */
+  }
+  to {
+    margin-bottom: var(--yEnd);
+    margin-left: var(--xEnd);
+    /* margin-bottom: 0;
+    margin-left: 3100%; */
+  }
+}

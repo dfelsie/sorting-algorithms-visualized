@@ -1,0 +1,10 @@
+.buttonGrpDiv {
+  display: flex;
+  justify-content: space-around;
+  width: 300px;
+  margin-left: 66%;
+}
+
+.buttonGrpDiv > button {
+  height: 25px;
+}

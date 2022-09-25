@@ -1,0 +1,112 @@
+:root {
+  --lavender: #e2cfea;
+  --amethyst: #a06cd5;
+  --plum: #e2cfea;
+  --lightGreen: #7cea9c;
+  --turquoise: #55d6be;
+  --denim: #2e5eaa;
+  --grape: #5b4e77;
+  --violet: #593959;
+  --darkTurq: #25ced1;
+  --champagne: #fceade;
+  --indigo: #134074;
+  --paradise: #ea526f;
+  --offwhite: #f6f6f6;
+}
+
+@font-face {
+  font-family: Arvo;
+  src: url("../public/fonts/Arvo-Regular.ttf");
+}
+@font-face {
+  font-family: Arvo;
+  src: url("../public/fonts/Arvo-Regular.ttf");
+}
+@font-face {
+  font-family: Cabin;
+  src: url("../public/fonts/Cabin-Regular.ttf");
+}
+@font-face {
+  font-family: Lato;
+  src: url("../public/fonts/Lato-Regular.ttf");
+}
+@font-face {
+  font-family: OpenSans;
+  src: url("../public/fonts/OpenSans-Regular.ttf");
+}
+@font-face {
+  font-family: Slabo;
+  src: url("../public/fonts/Slabo27px-Regular.ttf");
+}
+@font-face {
+  font-family: Ubuntu-Bold;
+  src: url("../public/fonts/Ubuntu-Bold.ttf");
+}
+@font-face {
+  font-family: Ubuntu;
+  src: url("../public/fonts/Ubuntu-Regular.ttf");
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a.aniLink {
+  color: inherit;
+  text-decoration: none;
+  transition: 0.2s linear;
+  display: block;
+  position: relative;
+  padding: 0.2em 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Fade in */
+a.aniLink::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: var(--paradise);
+  transition: opacity 300ms, transform 300ms;
+  transform: translate3d(-100%, 0, 0);
+}
+
+a.aniLink:hover::after,
+a.aniLink:focus::after {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Slide in */
+
+* {
+  box-sizing: border-box;
+}
+
+.arrayCellBounce {
+  animation-name: bounceArrayCell;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bounceArrayCell {
+  from {
+    margin-top: 0;
+  }
+  50% {
+    margin-top: 100%;
+    margin-left: 1550%;
+  }
+  to {
+    margin-top: 0;
+    margin-left: 3100%;
+  }
+}
