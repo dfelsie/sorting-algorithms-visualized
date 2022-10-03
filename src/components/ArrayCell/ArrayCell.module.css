@@ -1,23 +1,32 @@
 .arrayCell {
   width: 2.5vw;
-  text-align: center;
   border: 1px solid black;
   height: 6.5vh;
 }
 
+.arrowDiv {
+  /*   position: absolute;
+ */
+}
+
+.hide {
+  display: none;
+}
+
 .arrayCellDiv {
+  text-align: center;
   display: flex;
   flex-direction: column;
 }
 
 .cellBounceUp {
   animation-name: bounceCellUp;
-  animation-duration: 4s;
+  animation-duration: 1s;
   animation-fill-mode: forwards;
 }
 .cellBounceDown {
   animation-name: bounceCellDown;
-  animation-duration: 4s;
+  animation-duration: 1s;
   animation-fill-mode: forwards;
 }
 

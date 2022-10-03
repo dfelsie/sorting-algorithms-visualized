@@ -9,7 +9,11 @@ type Props = {
 export default function Array({ algManager }: Props) {
   return (
     <div className={localStyles.arrayDiv}>
-      {algManager.aryVisualElements.map((val, i) => val)}
+      {/*       {algManager.aryVisualElements.map((val, i) => val)}
+       */}
+      {algManager.aryData.map((val, i) => {
+        return <ArrayCell num={val} index={i} key={`AryCellNum${i}`} />;
+      })}
     </div>
   );
 }

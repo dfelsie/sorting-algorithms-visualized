@@ -7,13 +7,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <div
-        style={{
-          height: "80px",
-        }}
-      >
-        <AppBody />
-      </div>
+      <AppBody />
     </div>
   );
 };

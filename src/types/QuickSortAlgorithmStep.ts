@@ -114,50 +114,12 @@ export class QuickSortSwapStep extends QuickSortAlgorithmStep {
     i: number,
     j: number
   ): Promise<any> {
-    await swapCells(i, j);
-    await swapCells(i, 16);
+    //     await swapCells(i, j);
     const temp = algManager.aryData[i];
     algManager.aryData[i] = algManager.aryData[j];
     algManager.aryData[j] = temp;
     console.log("Step Done!");
-    /*     const tempVis = algManager.aryVisualElements[i];
-    algManager.aryVisualElements[i] = algManager.aryVisualElements[j];
-    algManager.aryVisualElements[j] = tempVis; */
     return;
-    //findNewCellLoc(31, 0);
-    /*     const cellToMove = document.getElementById(`arrayCellNum${0}`);
-          cellToMove.style.setProperty("--xStart", "0");
-          cellToMove.style.setProperty("--yStart", "0");
-          cellToMove.style.setProperty(
-            "--xHalf",
-            `${(numCellsToMove * 100) / 2}%`
-          );
-          cellToMove.style.setProperty("--yHalf", "120%");
-          cellToMove.style.setProperty("--xEnd", `${numCellsToMove * 100}%`);
-          cellToMove.style.setProperty("--yEnd", "0");
-
-          const otherCellToMove = document.getElementById(
-            `arrayCellNum${arySize - 1}`
-          );
-          otherCellToMove.style.setProperty("--xStart", "0");
-          otherCellToMove.style.setProperty("--yStart", "0");
-          otherCellToMove.style.setProperty(
-            "--xHalf",
-            `${(-numCellsToMove * 100) / 2}%`
-          );
-          otherCellToMove.style.setProperty("--yHalf", "120%");
-          otherCellToMove.style.setProperty(
-            "--xEnd",
-            `${-numCellsToMove * 100}%`
-          );
-          otherCellToMove.style.setProperty("--yEnd", "0");
-          cellToMove.classList.toggle(cellStyles.cellBounceUp);
-          otherCellToMove.classList.toggle(cellStyles.cellBounceDown);
-          const firstIndex = cellToMove.dataset.index;
-          const secondIndex = otherCellToMove.dataset.index;
-          cellToMove.dataset.index = secondIndex;
-          otherCellToMove.dataset.index = firstIndex;
- */
   }
   constructor() {
     super();

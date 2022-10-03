@@ -11,6 +11,15 @@ export default function ArrayCell({ num, index }: Props) {
   return (
     <div className={localStyles.arrayCellDiv} key={`arrayCellNum${index}`}>
       <div
+        id={`arrowNum${index}`}
+        className={joinClasses(localStyles.arrowDiv, localStyles.hide)}
+      >
+        <div className={localStyles.arrowLabel}>Yurr</div>
+        <div>&#8595;</div>
+        {/*         <AiOutlineArrowDown className={localStyles.cellArrow} />
+         */}{" "}
+      </div>
+      <div
         id={`arrayCellNum${num}`}
         data-index={`${index}`}
         className={joinClasses(
@@ -21,6 +30,7 @@ export default function ArrayCell({ num, index }: Props) {
         {" "}
         {num}{" "}
       </div>
+      <div className={localStyles.cellLabel}></div>
     </div>
   );
 }
