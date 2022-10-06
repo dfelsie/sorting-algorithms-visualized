@@ -1,3 +1,8 @@
+import {
+  ARRAY_CELL_HEIGHT,
+  HALF_ARRAY_CELL_HEIGHT,
+  TWICE_ARRAY_CELL_HEIGHT,
+} from "./../consts";
 import ArrayCell from "../components/ArrayCell/ArrayCell";
 import { AlgorithmStep, ArrayAlgorithmStep } from "./AlgorithmStep";
 import {
@@ -17,6 +22,7 @@ class AlgorithmManager {
 class ArrayAlgorithmManager {
   step?: AlgorithmStep;
   aryData: any;
+  lock: any;
   aryVisualElements: JSX.Element[];
   constructor(aryData, step?) {
     this.step = step;
@@ -137,9 +143,10 @@ export class QuickSortAlgorithmManager {
     items[rightIndex] = temp;
   }
   async partition(items: number[], visAry: any[], left: number, right: number) {
-    let pivot = items[Math.floor((right + left) / 2)], //middle element
-      i = left, //left pointer
-      j = right; //right pointer
+    let pivot = items[Math.floor((right + left) / 2)]; //middle element
+    let i = left; //left pointer
+    let j = right; //right pointer
+    this.setLabel(`Pivoting around ${i}`);
     while (i <= j) {
       while (items[i] < pivot) {
         i++;
@@ -175,10 +182,14 @@ export class QuickSortAlgorithmManager {
       index = await this.partition(items, visAry, left, right); //index returned from partition
       if (left < index - 1) {
         //more elements on the left side of the pivot
+        this.setLabel(`Doing quicksort from ${left} to ${index - 1}`);
+
         await this.quickSort(items, visAry, left, index - 1);
       }
       if (index < right) {
         //more elements on the right side of the pivot
+        this.setLabel(`Doing quicksort from ${left} to ${right}`);
+
         await this.quickSort(items, visAry, index, right);
       }
     }
@@ -222,7 +233,7 @@ export class QuickSortAlgorithmManager {
       cell.classList.add(cellStyles.cellBounceUp);
     }
     cell.style.setProperty("--yStart", "0");
-    cell.style.setProperty("--yHalf", "120%");
+    cell.style.setProperty("--yHalf", TWICE_ARRAY_CELL_HEIGHT);
     cell.style.setProperty("--yEnd", "0");
     cell.setAttribute("data-index", `${destLoc}`);
   }

@@ -10,3 +10,7 @@ export const ranAry = [
   28, 12, 19, 34, 39, 39, 3, 34, 14, 22, 34, 8, 13, 30, 15, 15, 24, 30, 37, 3,
   4, 7, 30, 18, 20, 25, 39, 1, 33, 17, 16, 7, 26,
 ];
+
+export const TWICE_ARRAY_CELL_HEIGHT = "13vh";
+export const ARRAY_CELL_HEIGHT = "6.5vh";
+export const HALF_ARRAY_CELL_HEIGHT = "3.25vh";
