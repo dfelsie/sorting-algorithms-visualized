@@ -11,7 +11,7 @@ type Props = {};
 const arySize = 32;
 const ary = [];
 for (let i = 0; i < arySize; i++) {
-  ary.push(Math.floor(Math.random() * 40));
+  ary.push(Math.floor(Math.random() * 1000));
 }
 //const ary = Array.from({ length: 40 }, () => Math.floor(Math.random() * 40));
 const textAry: any[] = Array.from({ length: arySize }, () => "");

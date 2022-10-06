@@ -193,37 +193,33 @@ export class QuickSortAlgorithmManager {
     destLoc: number,
     showLog?: boolean
   ): Promise<void> {
-    if (cell.style.getPropertyValue("--xEnd")) {
-      cell.style.setProperty(
-        "--xStart",
-        `${cell.style.getPropertyValue("--xPlaceholder")}`
-      );
-      await new Promise((resolve) => setTimeout(resolve, 1));
-      cell.classList.remove(cellStyles.placeholder);
-      cell.classList.toggle(cellStyles.cellBounceUp);
-      cell.style.setProperty("--xEnd", `${moveDist * 100 + locNum}%`);
-      new Promise(function (resolve) {
-        cell.addEventListener("animationend", (event) => {
-          cell.classList.add(cellStyles.placeholder);
-          cell.classList.remove(cellStyles.cellBounceUp);
-          resolve(11);
-          console.log("Bingo Smith");
-        });
-      });
-      cell.style.setProperty("--xPlaceholder", `${moveDist * 100 + locNum}%`);
+    if (cell.classList.contains(cellStyles.placeholder))
       console.log(
-        cell.style.getPropertyValue("--xStart"),
-        cell.style.getPropertyValue("--xEnd"),
-        cell.style.getPropertyValue("--xPlaceholder")
+        cell.dataset.index,
+        " currLoc",
+        moveDist,
+        " new Move ",
+        locNum
       );
-      //Below sets the cell to new loc
+    if (cell.classList.contains(cellStyles.placeholder)) {
+      //Removing this promise prevents the animation triggering:
+      //Further, the animation doesn't happen until the promise resolves
+      //WHY?
+      await new Promise((resolve) => setTimeout(resolve, 0.0001));
+
+      cell.style.setProperty("--xStart", `${locNum}%`);
+      cell.classList.remove(cellStyles.placeholder);
+      cell.style.setProperty("--xEnd", `${moveDist * 100 + locNum}%`);
+      cell.classList.add(cellStyles.cellBounceUp);
+      //await new Promise((resolve) => setTimeout(resolve, 1));
+      console.log("Just moved");
       cell.style.setProperty("--xPlaceholder", `${moveDist * 100 + locNum}%`);
     }
     //if not
     else {
       cell.style.setProperty("--xEnd", `${moveDist * 100}%`);
       cell.style.setProperty("--xPlaceholder", `${moveDist * 100}%`);
-      cell.classList.toggle(cellStyles.cellBounceUp);
+      cell.classList.add(cellStyles.cellBounceUp);
     }
     cell.style.setProperty("--yStart", "0");
     cell.style.setProperty("--yHalf", "120%");
@@ -255,31 +251,11 @@ export class QuickSortAlgorithmManager {
       });
     });
     let bla = Promise.all([iCellEnd, jCellEnd]).then(() => {
-      if (!iCell.classList.contains(cellStyles.placeholder)) {
-        iCell.classList.add(cellStyles.placeholder);
-        iCell.classList.remove(cellStyles.cellBounceUp);
-        if (!jCell.classList.contains(cellStyles.placeholder)) {
-          console.log("It's Both Baby!!!");
-          jCell.classList.add(cellStyles.placeholder);
-          jCell.classList.remove(cellStyles.cellBounceUp);
-          return;
-        }
-        console.log("Just the first Homeboy!!");
-        //return;
-      }
-      if (!jCell.classList.contains(cellStyles.placeholder)) {
-        jCell.classList.add(cellStyles.placeholder);
-        jCell.classList.remove(cellStyles.cellBounceUp);
-        console.log("Just the second Homeboy!!");
+      iCell.classList.add(cellStyles.placeholder);
+      jCell.classList.add(cellStyles.placeholder);
 
-        return;
-      }
-      jCell.classList.toggle(cellStyles.placeholder);
-      jCell.classList.toggle(cellStyles.cellBounceUp);
-      //iCell.style.setProperty("--xStart", `${moveDist * 100}%`);
-      //jCell.style.setProperty("--xStart", `${moveDistJ * 100}%`);
-
-      //both are ready
+      iCell.classList.remove(cellStyles.cellBounceUp);
+      jCell.classList.remove(cellStyles.cellBounceUp);
     });
     const currLoc = iCell.style.getPropertyValue("--xEnd");
     const currLocJ = jCell.style.getPropertyValue("--xEnd");
