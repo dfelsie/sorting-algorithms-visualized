@@ -185,23 +185,46 @@ export class QuickSortAlgorithmManager {
     return items;
   }
 
-  setCellStyle(
+  async setCellStyle(
     cell: HTMLElement,
     locNum: number,
     moveDist: number,
     indexLoc: number,
     destLoc: number,
     showLog?: boolean
-  ): void {
-    //cell.style.setProperty("--xStart", `${locNum}%`);
-    //Remove percent, get num from currLoc
-    if (showLog) console.log(locNum, moveDist * 100, destLoc);
-    //const currMovedDistNum= currMovedDist === "" ? 0:
-
-    //cell.style.setProperty("--xHalf", `${locNum + moveDist * 50}%`);
-    //cell.style.setProperty("--xEnd", `${locNum + moveDist * 100}%`);
-    //cell.style.setProperty("--xEnd", `${moveDist * 100 - locNum}%`);
-    cell.style.setProperty("--xEnd", `${moveDist * 100}%`);
+  ): Promise<void> {
+    if (cell.style.getPropertyValue("--xEnd")) {
+      cell.style.setProperty(
+        "--xStart",
+        `${cell.style.getPropertyValue("--xPlaceholder")}`
+      );
+      await new Promise((resolve) => setTimeout(resolve, 1));
+      cell.classList.remove(cellStyles.placeholder);
+      cell.classList.toggle(cellStyles.cellBounceUp);
+      cell.style.setProperty("--xEnd", `${moveDist * 100 + locNum}%`);
+      new Promise(function (resolve) {
+        cell.addEventListener("animationend", (event) => {
+          cell.classList.add(cellStyles.placeholder);
+          cell.classList.remove(cellStyles.cellBounceUp);
+          resolve(11);
+          console.log("Bingo Smith");
+        });
+      });
+      cell.style.setProperty("--xPlaceholder", `${moveDist * 100 + locNum}%`);
+      console.log(
+        cell.style.getPropertyValue("--xStart"),
+        cell.style.getPropertyValue("--xEnd"),
+        cell.style.getPropertyValue("--xPlaceholder")
+      );
+      //Below sets the cell to new loc
+      cell.style.setProperty("--xPlaceholder", `${moveDist * 100 + locNum}%`);
+    }
+    //if not
+    else {
+      cell.style.setProperty("--xEnd", `${moveDist * 100}%`);
+      cell.style.setProperty("--xPlaceholder", `${moveDist * 100}%`);
+      cell.classList.toggle(cellStyles.cellBounceUp);
+    }
     cell.style.setProperty("--yStart", "0");
     cell.style.setProperty("--yHalf", "120%");
     cell.style.setProperty("--yEnd", "0");
@@ -218,89 +241,58 @@ export class QuickSortAlgorithmManager {
     const jCell = document.querySelector(
       "[data-index=" + queryPartI
     ) as HTMLElement;
-    /* const iCell = document.querySelector(
-    '[data-index=${`${startLoc}`}]'
-  ) as HTMLElement; */
+
     const moveDist = endLoc - startLoc;
     const moveDistJ = startLoc - endLoc;
-    /* for (let i = 0; i < this.aryData.length; i++) {
-      if (
-        (document.querySelector(
-          "[data-index=" + `${` '${i}'`}` + "]"
-        ) as HTMLElement) === null
-      ) {
-        console.log(i, " IsNull");
-      }
-    } */
     let iCellEnd = new Promise(function (resolve) {
       iCell.addEventListener("animationend", (event) => {
-        iCell.style.setProperty("--xStart", `${moveDist * 100}%`);
         resolve("i");
       });
     });
     let jCellEnd = new Promise(function (resolve) {
-      //console.log("[data-index=" + queryPartI);
       jCell.addEventListener("animationend", (event) => {
-        jCell.style.setProperty("--xStart", `${moveDistJ * 100}%`);
         resolve(11);
       });
     });
-
-    //check where error with arrays occurs
-
-    /* 
-Two options:
-1: Change the array after the animation ends, and then toggle the classlist, so that the cells revert
-just as they shift back. Need to unset all the css properties.
-2: Don't toggle the classlist, just keep updating the values.
-I think I'll go for number two. But I'll have to figure out how to get animation to repeat.
-Thinking of creating another css class to save the position, applying it on animation end, then untoggling
-the animation class. That means I'll have to untoggle the placeholder class at the start of the swap.
-Or do I use !important instead?  */
-
     let bla = Promise.all([iCellEnd, jCellEnd]).then(() => {
-      iCell.classList.add(cellStyles.placeholder);
-      jCell.classList.add(cellStyles.placeholder);
-      iCell.classList.toggle(cellStyles.cellBounceUp);
-      jCell.classList.toggle(cellStyles.cellBounceDown);
-      /*     iCell.replaceWith(iCell.cloneNode(true));
-    jCell.replaceWith(jCell.cloneNode(true)); */
+      if (!iCell.classList.contains(cellStyles.placeholder)) {
+        iCell.classList.add(cellStyles.placeholder);
+        iCell.classList.remove(cellStyles.cellBounceUp);
+        if (!jCell.classList.contains(cellStyles.placeholder)) {
+          console.log("It's Both Baby!!!");
+          jCell.classList.add(cellStyles.placeholder);
+          jCell.classList.remove(cellStyles.cellBounceUp);
+          return;
+        }
+        console.log("Just the first Homeboy!!");
+        //return;
+      }
+      if (!jCell.classList.contains(cellStyles.placeholder)) {
+        jCell.classList.add(cellStyles.placeholder);
+        jCell.classList.remove(cellStyles.cellBounceUp);
+        console.log("Just the second Homeboy!!");
+
+        return;
+      }
+      jCell.classList.toggle(cellStyles.placeholder);
+      jCell.classList.toggle(cellStyles.cellBounceUp);
+      //iCell.style.setProperty("--xStart", `${moveDist * 100}%`);
+      //jCell.style.setProperty("--xStart", `${moveDistJ * 100}%`);
 
       //both are ready
     });
-
-    //const currLoc = window.getComputedStyle(iCell,"--xEnd");
     const currLoc = iCell.style.getPropertyValue("--xEnd");
     const currLocJ = jCell.style.getPropertyValue("--xEnd");
     //If uninitialized, currLoc is empty string, hence ternary
     const currLocNum = currLoc === "" ? 0 : parseInt(currLoc.replace("%", ""));
     const currLocNumJ =
       currLocJ === "" ? 0 : parseInt(currLocJ.replace("%", ""));
-    /*    iCell.style.setProperty("--xStart", `${currLocNum}%`);
-    iCell.style.setProperty("--xHalf", `${currLocNum + moveDist * 50}%`);
-    iCell.style.setProperty("--xEnd", `${currLocNum + moveDist * 100}%`);
-    iCell.style.setProperty("--yStart", "0");
-    iCell.style.setProperty("--yHalf", "120%");
-    iCell.style.setProperty("--yEnd", "0");
-    iCell.dataset.index = `${endLoc}`;
-        jCell.style.setProperty("--xStart", `${currLocNumJ}%`);
-    jCell.style.setProperty("--xHalf", `${currLocNumJ + moveDistJ * 50}%`);
-    jCell.style.setProperty("--xEnd", `${currLocNumJ + moveDistJ * 100}%`);
-    jCell.style.setProperty("--yStart", "0");
-    jCell.style.setProperty("--yHalf", "120%");
-    jCell.style.setProperty("--yEnd", "0");
-    jCell.dataset.index = `${startLoc}`; */
     this.setCellStyle(iCell, currLocNum, moveDist, startLoc, endLoc);
     this.setCellStyle(jCell, currLocNumJ, moveDistJ, endLoc, startLoc, true);
-    iCell.classList.toggle(cellStyles.cellBounceUp);
-    jCell.classList.toggle(cellStyles.cellBounceDown);
+    //iCell.classList.toggle(cellStyles.cellBounceUp);
+    //jCell.classList.toggle(cellStyles.cellBounceDown);
     await bla;
 
     return;
   }
 }
-
-/* const ary = Array.from({ length: 40 }, () => Math.floor(Math.random() * 40));
-const algManager = new QuickSortAlgorithmManager(ary, new QuickSortSwapStep());
-export default algManager;
- */
