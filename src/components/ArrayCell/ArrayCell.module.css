@@ -8,6 +8,7 @@
 .arrowDiv {
   /*   position: absolute;
  */
+  display: block;
 }
 
 .hide {
