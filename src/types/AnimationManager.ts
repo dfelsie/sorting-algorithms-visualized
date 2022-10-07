@@ -22,7 +22,6 @@ class AlgorithmManager {
 class ArrayAlgorithmManager {
   step?: AlgorithmStep;
   aryData: any;
-  lock: any;
   aryVisualElements: JSX.Element[];
   constructor(aryData, step?) {
     this.step = step;
@@ -35,6 +34,8 @@ export class QuickSortAlgorithmManager {
   sortSteps: any[];
   setLabel: (newLabel: string) => void;
   partitionNum: number;
+  lock: any;
+  resolveFunc: any;
 
   constructor(aryData, setLabel) {
     this.aryData = aryData;
@@ -137,6 +138,11 @@ export class QuickSortAlgorithmManager {
     leftIndex: number,
     rightIndex: number
   ) {
+    this.setLabel(`Swapping ${leftIndex} and ${rightIndex}`);
+
+    await new Promise((resolve) =>
+      document.getElementById("stepButton").addEventListener("click", resolve)
+    );
     await this.swapCells(leftIndex, rightIndex);
     const temp = items[leftIndex];
     items[leftIndex] = items[rightIndex];
@@ -167,7 +173,10 @@ export class QuickSortAlgorithmManager {
   //TODO: This should be public, the rest private
   async quickSortDriver(items: number[], left = 0, right = items.length - 1) {
     const hiddenAry = [...items];
-    return await this.quickSort(items, hiddenAry, left, right);
+
+    await this.quickSort(items, hiddenAry, left, right);
+    this.setLabel(`Sorted array from ${left} to ${right}`);
+    return;
   }
 
   async quickSort(
@@ -179,17 +188,34 @@ export class QuickSortAlgorithmManager {
     let index;
     //Solve weird swaps
     if (items.length > 1) {
+      this.setLabel(`Partitioning from ${left} to ${right}`);
+
+      await new Promise((resolve) =>
+        document.getElementById("stepButton").addEventListener("click", resolve)
+      );
       index = await this.partition(items, visAry, left, right); //index returned from partition
       if (left < index - 1) {
         //more elements on the left side of the pivot
-        this.setLabel(`Doing quicksort from ${left} to ${index - 1}`);
-
+        this.setLabel(`Going to do quicksort from ${left} to ${index - 1}`);
+        await new Promise((resolve) =>
+          document
+            .getElementById("stepButton")
+            .addEventListener("click", resolve)
+        );
         await this.quickSort(items, visAry, left, index - 1);
+        console.log("Promise done");
+
+        //this.lock=new Promise();
       }
       if (index < right) {
         //more elements on the right side of the pivot
-        this.setLabel(`Doing quicksort from ${left} to ${right}`);
 
+        this.setLabel(`Going to do quicksort from ${index} to ${right}`);
+        await new Promise((resolve) =>
+          document
+            .getElementById("stepButton")
+            .addEventListener("click", resolve)
+        );
         await this.quickSort(items, visAry, index, right);
       }
     }
@@ -239,7 +265,7 @@ export class QuickSortAlgorithmManager {
   }
 
   async swapCells(startLoc: number, endLoc: number): Promise<any> {
-    this.setLabel(`Swapping ${startLoc} and ${endLoc}`);
+    //this.setLabel(`Swapping ${startLoc} and ${endLoc}`);
     const queryPart = `${` '${startLoc}'`}` + "]";
     const queryPartI = `${` '${endLoc}'`}` + "]";
     const iCell = document.querySelector(

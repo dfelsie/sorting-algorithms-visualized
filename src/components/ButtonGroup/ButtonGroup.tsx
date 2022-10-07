@@ -21,6 +21,7 @@ export default function ButtonGroup({ algManager }: Props) {
   return (
     <div className={localStyles.buttonGrpDiv}>
       <button
+        id={`stepButton`}
         onClick={async () => {
           console.log(algManager.sortSteps);
           if (algManager.sortSteps.length < 1) {

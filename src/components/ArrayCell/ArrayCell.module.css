@@ -23,12 +23,12 @@
 
 .cellBounceUp {
   animation-name: bounceCellUp;
-  animation-duration: 1.5s;
+  animation-duration: 0.5s;
   animation-fill-mode: forwards;
 }
 .cellBounceDown {
   animation-name: bounceCellDown;
-  animation-duration: 1.5s;
+  animation-duration: 0.5s;
   animation-fill-mode: forwards;
 }
 
