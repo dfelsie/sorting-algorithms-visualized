@@ -34,10 +34,10 @@ export class QuickSortAlgorithmManager {
   sortSteps: any[];
   setLabel: (newLabel: string) => void;
   partitionNum: number;
-  lock: any;
-  resolveFunc: any;
+  play: boolean;
 
   constructor(aryData, setLabel) {
+    this.play = false;
     this.aryData = aryData;
     this.setLabel = setLabel;
     this.sortSteps = [];
@@ -48,6 +48,13 @@ export class QuickSortAlgorithmManager {
       this.aryVisualElements = ary;
     }
   }
+
+  async pause() {
+    return await new Promise((resolve) =>
+      document.getElementById("stepButton").addEventListener("click", resolve)
+    );
+  }
+
   async doPartitionStep(
     items: number[],
     visAry: any[],
@@ -140,9 +147,7 @@ export class QuickSortAlgorithmManager {
   ) {
     this.setLabel(`Swapping ${leftIndex} and ${rightIndex}`);
 
-    await new Promise((resolve) =>
-      document.getElementById("stepButton").addEventListener("click", resolve)
-    );
+    await this.pause();
     await this.swapCells(leftIndex, rightIndex);
     const temp = items[leftIndex];
     items[leftIndex] = items[rightIndex];
@@ -190,18 +195,12 @@ export class QuickSortAlgorithmManager {
     if (items.length > 1) {
       this.setLabel(`Partitioning from ${left} to ${right}`);
 
-      await new Promise((resolve) =>
-        document.getElementById("stepButton").addEventListener("click", resolve)
-      );
+      await this.pause();
       index = await this.partition(items, visAry, left, right); //index returned from partition
       if (left < index - 1) {
         //more elements on the left side of the pivot
         this.setLabel(`Going to do quicksort from ${left} to ${index - 1}`);
-        await new Promise((resolve) =>
-          document
-            .getElementById("stepButton")
-            .addEventListener("click", resolve)
-        );
+        await this.pause();
         await this.quickSort(items, visAry, left, index - 1);
         console.log("Promise done");
 
@@ -211,11 +210,7 @@ export class QuickSortAlgorithmManager {
         //more elements on the right side of the pivot
 
         this.setLabel(`Going to do quicksort from ${index} to ${right}`);
-        await new Promise((resolve) =>
-          document
-            .getElementById("stepButton")
-            .addEventListener("click", resolve)
-        );
+        await this.pause();
         await this.quickSort(items, visAry, index, right);
       }
     }
@@ -248,7 +243,6 @@ export class QuickSortAlgorithmManager {
       cell.classList.remove(cellStyles.placeholder);
       cell.style.setProperty("--xEnd", `${moveDist * 100 + locNum}%`);
       cell.classList.add(cellStyles.cellBounceUp);
-      //await new Promise((resolve) => setTimeout(resolve, 1));
       console.log("Just moved");
       cell.style.setProperty("--xPlaceholder", `${moveDist * 100 + locNum}%`);
     }

@@ -6,9 +6,10 @@
 }
 
 .arrowDiv {
-  /*   position: absolute;
- */
-  display: block;
+}
+
+.arrowIcon {
+  font-size: 2rem;
 }
 
 .hide {
@@ -19,6 +20,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .cellBounceUp {

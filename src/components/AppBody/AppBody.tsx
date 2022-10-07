@@ -24,7 +24,7 @@ function AppBody({}: Props) {
     <>
       <div
         style={{
-          height: "50px",
+          height: "75px",
         }}
       ></div>
       <div className={localStyles.bodyLabel}>{Label}</div>
