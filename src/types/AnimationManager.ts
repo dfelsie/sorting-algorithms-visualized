@@ -37,7 +37,7 @@ export class QuickSortAlgorithmManager {
   play: boolean;
 
   constructor(aryData, setLabel) {
-    this.play = false;
+    this.play = true;
     this.aryData = aryData;
     this.setLabel = setLabel;
     this.sortSteps = [];
@@ -50,6 +50,7 @@ export class QuickSortAlgorithmManager {
   }
 
   async pause() {
+    if (this.play) return;
     return await new Promise((resolve) =>
       document.getElementById("stepButton").addEventListener("click", resolve)
     );
@@ -223,7 +224,7 @@ export class QuickSortAlgorithmManager {
     moveDist: number,
     indexLoc: number,
     destLoc: number,
-    showLog?: boolean
+    bounceDown?: boolean
   ): Promise<void> {
     if (cell.classList.contains(cellStyles.placeholder))
       console.log(
@@ -242,7 +243,9 @@ export class QuickSortAlgorithmManager {
       cell.style.setProperty("--xStart", `${locNum}%`);
       cell.classList.remove(cellStyles.placeholder);
       cell.style.setProperty("--xEnd", `${moveDist * 100 + locNum}%`);
-      cell.classList.add(cellStyles.cellBounceUp);
+      cell.classList.add(
+        bounceDown ? cellStyles.cellBounceDown : cellStyles.cellBounceUp
+      );
       console.log("Just moved");
       cell.style.setProperty("--xPlaceholder", `${moveDist * 100 + locNum}%`);
     }
@@ -250,7 +253,9 @@ export class QuickSortAlgorithmManager {
     else {
       cell.style.setProperty("--xEnd", `${moveDist * 100}%`);
       cell.style.setProperty("--xPlaceholder", `${moveDist * 100}%`);
-      cell.classList.add(cellStyles.cellBounceUp);
+      cell.classList.add(
+        bounceDown ? cellStyles.cellBounceDown : cellStyles.cellBounceUp
+      );
     }
     cell.style.setProperty("--yStart", "0");
     cell.style.setProperty("--yHalf", TWICE_ARRAY_CELL_HEIGHT);
@@ -268,6 +273,16 @@ export class QuickSortAlgorithmManager {
     const jCell = document.querySelector(
       "[data-index=" + queryPartI
     ) as HTMLElement;
+    const iArrow = document.querySelector(
+      "[data-arrowIndex=" + queryPart
+    ) as HTMLElement;
+    const jArrow = document.querySelector(
+      "[data-arrowIndex=" + queryPart
+    ) as HTMLElement;
+
+    //Can show/hide arrows by removing/adding hide class
+    //But looks bad
+    //Consider changing cell color instead?
 
     const moveDist = endLoc - startLoc;
     const moveDistJ = startLoc - endLoc;
@@ -285,8 +300,12 @@ export class QuickSortAlgorithmManager {
       iCell.classList.add(cellStyles.placeholder);
       jCell.classList.add(cellStyles.placeholder);
 
+      //We could do some checking and remove the one that exists,
+      //But why bother? Remove only removes existing classes.
       iCell.classList.remove(cellStyles.cellBounceUp);
+      iCell.classList.remove(cellStyles.cellBounceDown);
       jCell.classList.remove(cellStyles.cellBounceUp);
+      jCell.classList.remove(cellStyles.cellBounceDown);
     });
     const currLoc = iCell.style.getPropertyValue("--xEnd");
     const currLocJ = jCell.style.getPropertyValue("--xEnd");
@@ -296,8 +315,6 @@ export class QuickSortAlgorithmManager {
       currLocJ === "" ? 0 : parseInt(currLocJ.replace("%", ""));
     this.setCellStyle(iCell, currLocNum, moveDist, startLoc, endLoc);
     this.setCellStyle(jCell, currLocNumJ, moveDistJ, endLoc, startLoc, true);
-    //iCell.classList.toggle(cellStyles.cellBounceUp);
-    //jCell.classList.toggle(cellStyles.cellBounceDown);
     await bla;
 
     return;

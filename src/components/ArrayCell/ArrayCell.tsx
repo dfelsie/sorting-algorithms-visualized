@@ -8,11 +8,14 @@ type Props = {
 };
 
 export default function ArrayCell({ num, index }: Props) {
+  /* I wanted to have the arrow move with the cell,
+  but can't get the css to work, so the change (moving data-index to arraycelldiv)
+  will destroy it. */
   return (
     <div className={localStyles.arrayCellDiv} key={`arrayCellNum${index}`}>
       <div
         id={`arrowNum${index}`}
-        className={joinClasses(localStyles.arrowDiv)}
+        className={joinClasses(localStyles.arrowDiv, localStyles.hide)}
         data-arrowIndex={`${index}`}
       >
         <div className={localStyles.arrowLabel}>Yurr</div>
